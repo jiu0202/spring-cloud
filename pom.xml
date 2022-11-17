@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 指定pom模型版本 -->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 打包方式：web工程打包为war，java工程打包为jar，pom定义该工程用于进行构建管理 -->
+    <packaging>pom</packaging>
+    <!-- 组织id -->
+    <groupId>cn.jiu.spring-cloud</groupId>
+    <!-- 项目id -->
+    <artifactId>spring-cloud</artifactId>
+    <!-- 版本号：RELEASE[发布版]，SNAPSHOT[快照版] -->
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- 管理的工程列表 -->
+    <modules>
+        <!-- 具体的工程名称 -->
+        <module>user-service</module>
+        <module>order-service</module>
+    </modules>
+
+    <!-- 统一管理jar包版本 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+        <mysql.version>5.1.47</mysql.version>
+        <mybatis.version>2.1.1</mybatis.version>
+    </properties>
+
+    <!-- 定义多环境 -->
+    <profiles>
+        <!-- 开发环境 -->
+        <profile>
+            <id>pro_env</id>
+            <!-- 设置默认启动 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>dep_env</id>
+        </profile>
+    </profiles>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.9.RELEASE</version>
+    </parent>
+
+    <!-- 声明此处进行依赖管理，子模块继承后，提供作用：锁定版本 + 子模块不用写 groupId 和 version -->
+    <dependencyManagement>
+        <!-- 设置当前工程的所有依赖 -->
+        <dependencies>
+            <!-- springCloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- mysql 驱动 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!-- spring-cloud-alibaba 的管理依赖 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.2.5.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 构建 -->
+    <build>
+        <pluginManagement>
+            <!-- 插件 -->
+            <plugins>
+            </plugins>
+        </pluginManagement>
+        <!-- 配置资源文件对应的信息 -->
+        <resources>
+            <resource>
+                <!-- 设定配置文件对应的位置目录，支持使用属性动态设定路径 -->
+                <directory>${project.basedir}Path</directory>
+                <!-- 开启对配置文件的资源加载过滤 -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+</project>
